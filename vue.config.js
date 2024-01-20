@@ -1,5 +1,5 @@
 const { defineConfig } = require('@vue/cli-service')
-const webpack = require('webpack')
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
 
 module.exports = defineConfig({
   transpileDependencies: true,
@@ -17,20 +17,12 @@ module.exports = defineConfig({
           chunks: 'all',
           // minSize: 1024 * 5,
           // maxSize: 1024 * 20,
-          cacheGroups: {
-            moment: {
-              name: 'monemt-test',
-              priority: 20,
-              test: /[/]node_modules[/]_?moment(.*)/,
-              enforce: true,
-            },
-          },
         },
       },
       plugins: [
-        new webpack.IgnorePlugin({
-          resourceRegExp: /moment[/\\]locale$/,
-          contextRegExp: /zh-cn/,
+        new MomentLocalesPlugin({
+          // 剥离除 “zh-cn” 以外的所有语言环境。
+          localesToKeep: ['zh-cn'],
         }),
       ],
     }
