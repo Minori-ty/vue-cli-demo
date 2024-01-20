@@ -11,7 +11,6 @@ module.exports = defineConfig({
       entry: {
         code: './src/code.js',
       },
-
       plugins: [
         new MomentLocalesPlugin({
           // 剥离除 “zh-cn” 以外的所有语言环境。
@@ -37,8 +36,20 @@ module.exports = defineConfig({
       optimization: {
         splitChunks: {
           chunks: 'all',
-          minSize: 1024 * 5,
-          maxSize: 1024 * 20,
+          // minSize: 1024 * 5,
+          // maxSize: 1024 * 20,
+          cacheGroups: {
+            elementUI: {
+              name: 'chunk-elementUI',
+              priority: 30,
+              test: /[\\/]node_modules[\\/]_?element-ui(.*)/,
+            },
+            moment: {
+              name: 'chunk-moment',
+              priority: 30,
+              test: /[\\/]node_modules[\\/]_?moment(.*)/,
+            },
+          },
         },
       },
     }
@@ -49,7 +60,7 @@ module.exports = defineConfig({
       filename: 'index.html',
       template: './public/index.html',
       title: 'vue2',
-      chunks: ['code', 'chunk-vendors', 'chunk-common', 'app'],
+      chunks: ['code', 'chunk-vendors', 'app'],
       chunksSortMode: 'manual',
     },
   },
