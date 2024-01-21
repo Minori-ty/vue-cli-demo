@@ -1,9 +1,10 @@
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
+const HtmlInlineScriptPlugin = require('html-inline-script-webpack-plugin')
 
 module.exports = {
   entry: {
-    code: './src/code.js',
+    iframe: './src/iframe.js',
   },
   plugins: [
     new MomentLocalesPlugin({
@@ -13,6 +14,9 @@ module.exports = {
     new CompressionPlugin({
       test: /\.js$/,
       threshold: 1024 * 50,
+    }),
+    new HtmlInlineScriptPlugin({
+      scriptMatchPattern: [/iframe.+\.js$/],
     }),
   ],
   module: {
@@ -42,6 +46,11 @@ module.exports = {
           name: 'chunk-moment',
           priority: 30,
           test: /[\\/]node_modules[\\/]_?moment(.*)/,
+        },
+        axios: {
+          name: 'chunk-axios',
+          priority: 30,
+          test: /[\\/]node_modules[\\/]_?axios(.*)/,
         },
       },
     },
