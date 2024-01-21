@@ -5,15 +5,4 @@ module.exports = defineConfig({
   transpileDependencies: true,
   productionSourceMap: false,
   configureWebpack: require('./webpack.config.cjs'),
-  pages: {
-    app: {
-      entry: './src/main.js',
-      filename: 'index.html',
-      template: './public/index.html',
-      title: 'vue2',
-      chunks: ['iframe', 'chunk-vendors', 'app'],
-      chunksSortMode: 'manual',
-      inlineSource: /iframe.+\.js$/,
-    },
-  },
 })

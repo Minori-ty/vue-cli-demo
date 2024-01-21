@@ -1,10 +1,11 @@
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
-const HtmlInlineScriptPlugin = require('html-inline-script-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   entry: {
     iframe: './src/iframe.js',
+    app: './src/main.js',
   },
   plugins: [
     new MomentLocalesPlugin({
@@ -15,8 +16,16 @@ module.exports = {
       test: /\.js$/,
       threshold: 1024 * 50,
     }),
-    new HtmlInlineScriptPlugin({
-      scriptMatchPattern: [/iframe.+\.js$/],
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: './public/index.html',
+      title: 'vue2',
+      chunks: ['iframe', 'chunk-vendors', 'app'],
+      chunksSortMode: 'manual',
+      inlineSource: /iframe.+\.js$/,
+      templateParameters: {
+        BASE_URL: './',
+      },
     }),
   ],
   module: {
